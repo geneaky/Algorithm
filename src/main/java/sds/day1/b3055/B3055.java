@@ -84,7 +84,7 @@ public class B3055 {
 
                     if (tx >= 0 && tx <= map.length - 1 && ty >= 0 && ty <= map[0].length - 1) {
                         //갈 수 있는가?
-                        if (map[tx][ty] == '.') {
+                        if (map[tx][ty] == '.' || map[tx][ty] == 'S') {
                             //체크인
                             map[tx][ty] = '*';
                             //큐에 넣음
