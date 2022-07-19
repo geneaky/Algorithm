@@ -29,9 +29,8 @@ public class B3055 {
     static int R;
     static int C;
     static char[][] map;
-    static int[][] dp;
     static Queue<Point> queue;
-    static boolean foundAnswer;
+    static int ret;
 
     public static void main(String[] args) throws FileNotFoundException {
 
@@ -43,7 +42,6 @@ public class B3055 {
         C = sc.nextInt();
 
         map = new char[R][C];
-        dp = new int[R][C];
 
         for(int i = 0; i < R; i++) {
             String temp = sc.next();
@@ -52,7 +50,7 @@ public class B3055 {
             }
         }
 
-        Queue<Point> queue = new LinkedList<>();
+        queue = new LinkedList<>();
 
         for(int i = 0; i < R; i++) {
             for(int j = 0; j < C; j++) {
@@ -70,14 +68,13 @@ public class B3055 {
             }
         }
 
-        foundAnswer = false;
 
         while(!queue.isEmpty()) {
             //큐에서 꺼내옴
             Point temp = queue.poll();
             //목적지 인가?
             if(temp.type == 'S' && map[temp.x][temp.y] == 'D') {
-                foundAnswer = true;
+                ret = temp.visited;
             }
             //연결된곳을 순회
             if(temp.type == '*') {
@@ -96,7 +93,7 @@ public class B3055 {
                     }
                 }
             }else{
-                dp[temp.x][temp.y] = temp.visited;
+                map[temp.x][temp.y] = temp.type;
                 for (int i = 0; i < 4; i++) {
 
                     int tx = temp.x + MX[i];
@@ -104,7 +101,7 @@ public class B3055 {
 
                     if (tx >= 0 && tx <= map.length - 1 && ty >= 0 && ty <= map[0].length - 1) {
                         //갈 수 있는가?
-                        if (dp[tx][ty] == 0 && (map[tx][ty] == '.' || map[tx][ty] == 'D')) {
+                        if (map[tx][ty] == '.' || map[tx][ty] == 'D') {
                             //체크인
                             //방문했던 곳은 재방문 못하도록 dp[][]에서 판단할 것 이므로 map에 표시하지 않아도됨
 //                            map[tx][ty] = 'S';
@@ -116,14 +113,8 @@ public class B3055 {
             }
         }
 
-        if(foundAnswer) {
-            for(int i = 0; i < R; i++) {
-                for(int j = 0; j < C; j++) {
-                    if(map[i][j] == 'D') {
-                        System.out.println(dp[i][j]);;
-                    }
-                }
-            }
+        if(ret != 0) {
+            System.out.println(ret);
         }else{
             System.out.println("KAKTUS");
         }
