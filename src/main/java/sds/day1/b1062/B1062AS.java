@@ -1,4 +1,4 @@
-package sds.day1;
+package sds.day1.b1062;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,7 +17,7 @@ public class B1062AS {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        System.setIn(new FileInputStream("src/main/java/sds/day1/input.txt"));
+        System.setIn(new FileInputStream("src/main/java/sds/day1/b1062/input.txt"));
         Scanner sc = new Scanner(System.in);
 
         N = sc.nextInt();

@@ -1,4 +1,4 @@
-package sds.day1;
+package sds.day1.b1062;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
