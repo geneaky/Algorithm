@@ -48,6 +48,7 @@ public class Main {
         q.add(1);
         visited[1] = true;
 
+        //tree 구성
         while (!q.isEmpty()) {
             int curr = q.poll();
             for(int i = 0; i < adj[curr].size(); i++) {
@@ -55,7 +56,7 @@ public class Main {
                 if(visited[next]) {
                     continue;
                 }
-                dp[0][next] = curr;
+                dp[0][next] = curr; //현재 노드를 하위 노드의 부모로 지정
                 visited[next] = true;
                 depth[next] = depth[curr] + 1;
                 q.add(next);
@@ -83,6 +84,7 @@ public class Main {
     }
 
     static int lca(int a, int b) {
+        //depth를 맞춘다
         if(depth[a] > depth[b]) {
             int tmp = b;
             b = a;
@@ -96,11 +98,13 @@ public class Main {
                 b = dp[i][b];
             }
         }
+        //높이를 맞췄는데 서로 같으면 바로 공통 조상 return
 
         if(a == b) {
             return a;
         }
 
+        //이분탐색으로 LCA를 찾아 나간다.
         for(int i = 17; i >= 0; i--) {
             if(dp[i][a] != dp[i][b]) {
                 a = dp[i][a];
