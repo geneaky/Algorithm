@@ -1,3 +1,7 @@
 .gradle
 .idea
 gradle
+build
+src/main/java/config.json
+.DS_Store
+config.json
