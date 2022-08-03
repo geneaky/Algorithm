@@ -15,7 +15,11 @@ public class Main {
     static int R,C;
     static char[][] map;
 
-    static boolean[][] visited;
+    static int[][] dp;
+
+    static boolean found;
+
+    static int ret;
 
     public static void main(String[] args) throws IOException {
         System.setIn(new FileInputStream("src/main/java/study/b3055/input.txt"));
@@ -29,59 +33,67 @@ public class Main {
 
         //맵 초기화
         map = new char[R][C];
-        visited = new boolean[R][C];
+        dp = new int[R][C];
 
         Queue<Node> q = new LinkedList<>();
-        Node S;
-        Node D;
+        Node S = null;
         for(int y = 0; y < R; y++) {
             st = new StringTokenizer(br.readLine());
             String temp = st.nextToken();
             for(int x = 0; x < C; x++) {
                 map[y][x] = temp.charAt(x);
                 if(map[y][x] == 'S') {
-                    visited[y][x] = true;
                     S = new Node('S',y, x);
                 }
 
                 if(map[y][x] == '*') {
                     q.offer(new Node('*',y, x));
                 }
-
-                if(map[y][x] == 'D') {
-                    D = new Node('D',y,x);
-                }
             }
         }
+        q.offer(S);
 
-        int ret = 0;
+
         while(!q.isEmpty()) {
-        //큐에서 꺼낸다
+            //큐에서 꺼낸다
             Node temp = q.poll();
-        //도착지인가?
-            if(map[temp.y][temp.x] == 'D' && (temp.c == 'S' || temp.c == '.')) {
-                System.out.println(ret);
+            //도착지인가?
+            if(temp.c == 'D') {
+                found = true;
+                ret = dp[temp.y][temp.x];
                 break;
             }
-        //연결된곳 순회
+            //연결된곳 순회
             for(int i = 0; i < 4; i++) {
-        //갈 수 있는가? -> map안, 방문하지 않은곳, . 인곳
+                 //갈 수 있는가? -> map안, 방문하지 않은곳, . 인곳
                 int ty = temp.y + yy[i];
                 int tx = temp.x + xx[i];
                 //공통 map 범위
                 if(0 <= tx && tx < C && 0 <= ty && ty < R) {
-                    if(temp.c == '*' && map[tx][ty] == '.') {
-                        map[ty][tx] = '*';
-                        q.offer(new Node('*',ty,tx));
-                    } else if(temp.c == 'S' || temp.c == '.' && map[tx][ty] == 'S' || map[tx][ty] =='.' && !visited[ty][tx]){
-                        visited[ty][tx] = true;
-                        q.offer(new Node('S',ty,tx));
+                    if(temp.c == '*') {
+                        if(map[ty][tx] == '.' || map[ty][tx] == 'S'){
+                           //간다
+                            map[ty][tx] = '*';
+                            //큐에 넣는다.
+                            q.offer(new Node('*', ty, tx));
+                        }
+                    } else if(temp.c == 'S' || temp.c == '.'){
+                        if((map[ty][tx] == 'D' || map[ty][tx] == '.') && dp[ty][tx]==0){
+                            //간다
+                            dp[ty][tx] = dp[temp.y][temp.x] + 1;
+                            //큐에 넣는다.
+                            q.offer(new Node(map[ty][tx], ty, tx));
+                        }
                     }
                 }
 
-        //간다
-        //큐에 넣는다.
             }
+        }
+
+        if(found) {
+            System.out.println(ret);
+        } else {
+            System.out.println("KAKTUS");
         }
 
     }

@@ -24,6 +24,7 @@ public class Main {
         K = Integer.parseInt(br.readLine());
 
 
+
     }
 
 }
