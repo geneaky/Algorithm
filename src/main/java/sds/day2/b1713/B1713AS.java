@@ -73,6 +73,7 @@ public class B1713AS {
                 //사진틀이 가득 찬 경우
                 if(list.size() == N) {
                     //정렬, 지울 후보 선정, 제거
+
                     Collections.sort(list);
                     Nominee nomi = list.remove(0);
                     nomi.isIn = false;
