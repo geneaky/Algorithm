@@ -15,14 +15,15 @@ public class Main {
         System.setIn(new FileInputStream("/Users/jcr/Desktop/github/Algorithm/src/main/java/study/bj1920/input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
-        long[] Nlist = new long[N+1];
-        Map<Long,Long> map = new HashMap<>();
+        long[] Nlist = new long[N];
         StringTokenizer st = new StringTokenizer(br.readLine());
 
-        for(int i = 1; i < N+1; i++) {
+        for(int i = 0; i < N; i++) {
             long number = Long.parseLong(st.nextToken());
-            map.put(number,number);
+            Nlist[i] = number;
         }
+
+        Arrays.sort(Nlist);
 
         M = Integer.parseInt(br.readLine());
 
@@ -31,7 +32,24 @@ public class Main {
         for(int i = 0; i < M; i++) {
             long number = Long.parseLong(st.nextToken());
 
-            if(map.containsKey(number)) {
+            int left = 0;
+            int right = N-1;
+            boolean flag = false;
+
+            while(left <= right) {
+                int mid = (left + right) / 2;
+
+                if(Nlist[mid] < number) {
+                    left = mid + 1;
+                }else if(Nlist[mid] > number) {
+                    right = mid - 1;
+                } else {
+                    flag = true;
+                    break;
+                }
+            }
+
+            if(flag) {
                 System.out.println(1);
             }else{
                 System.out.println(0);
