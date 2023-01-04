@@ -50,42 +50,25 @@ public class Main {
         System.out.println(result);
     }
 
-    //갈수있는곳만 가는걸로하자
     private static void dfs(int y, int x, int d) {
-        if(map[y][x] == 0) {
-            result++;
-            map[y][x] = -1;
+        switch(map[y][x]) {
+            case 1: return;
+            case 0:
+                map[y][x] = -1;
+                result++;
         }
-
-        boolean flag = false;
-        int origin = d;
 
         for(int i = 0; i < 4; i++) {
-            int next_d = (d+3) % 4;
-            int next_y = y + ty[next_d];
-            int next_x = x + tx[next_d];
-
-            if(next_y > 0 && next_x > 0 && next_y < N && next_x < M) {
-                if(map[next_y][next_x] == 0) {
-                    dfs(next_y, next_x, next_d);
-                    flag = true;
-                    break;
-                }
-            }
             d = (d+3) % 4;
-        }
+            int ny = y + ty[d];
+            int nx = x + tx[d];
 
-        if (!flag) {
-            int next_d = (origin + 2) % 4;
-            int next_y = y + ty[next_d];
-            int next_x = x + tx[next_d];
-
-            if(next_y > 0 && next_x > 0 && next_y < N && next_x < M) {
-                if(map[next_y][next_x] != 1) {
-                    dfs(next_y, next_x, origin);
-                }
+            if(map[ny][nx] == 0) {
+                dfs(ny,nx,d);
+                return;
             }
         }
-
+        dfs(y-ty[d], x-tx[d], d);
+        return;
     }
 }
