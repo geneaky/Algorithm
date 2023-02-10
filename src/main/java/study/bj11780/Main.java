@@ -1,4 +1,4 @@
-package study.bj11404;
+package study.bj11780;
 
 import java.util.*;
 import java.io.*;
@@ -8,9 +8,12 @@ public class Main {
     static int n, m;
 
     static int[][] map;
+    static int[][] dist;
+
+    static int INF = 10_000_001;
 
     public static void main(String[] args) throws IOException {
-        System.setIn(new FileInputStream("/Users/jcr/Desktop/github/Algorithm/src/main/java/study/bj11404/input.txt"));
+        System.setIn(new FileInputStream("/Users/jcr/Desktop/github/Algorithm/src/main/java/study/bj11780/input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -18,12 +21,16 @@ public class Main {
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(br.readLine());
 
+        Stack<Integer> stack = new Stack<>();
+
         map = new int[n][n];
+        dist = new int[n][n];
 
         for(int i = 0; i < n; i++) {
             for(int j = 0; j < n; j++) {
+                dist[i][j] = INF;
                 if(i==j) continue;
-                map[i][j] = 10_000_001;
+                map[i][j] = INF;
             }
         }
 
@@ -34,6 +41,7 @@ public class Main {
             int value = Integer.parseInt(st.nextToken());
 
             map[start][end] = Math.min(map[start][end], value);
+            dist[start][end] = start;
         }
 
         //거쳐가는 노드
@@ -44,6 +52,7 @@ public class Main {
                 for(int j = 0; j < n; j++) {
                     if(map[i][j] > map[i][k] + map[k][j]) {
                         map[i][j] = map[i][k] + map[k][j];
+                        dist[i][j] = dist[k][j];
                     }
                 }
             }
@@ -60,7 +69,28 @@ public class Main {
             }
             sb.append("\n");
         }
-        System.out.println(sb.toString());
 
+        for(int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if(dist[i][j] == INF) {
+                    sb.append(0 + "\n");
+                }else {
+                    int pre = j;
+                    stack.push(j);
+                    while(i != dist[i][pre]) {
+                        pre = dist[i][pre];
+                        stack.push(pre);
+                    }
+                    sb.append((stack.size() + 1) + " ");
+                    sb.append(i + " ");
+                    while(!stack.empty()) {
+                        sb.append(stack.pop() + " ");
+                    }
+                    sb.append("\n");
+                }
+            }
+        }
+
+        System.out.println(sb.toString());
     }
 }
