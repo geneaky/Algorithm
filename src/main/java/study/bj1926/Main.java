@@ -34,7 +34,7 @@ public class Main {
             for(int j = 0; j < M; j++) {
                 if(map[i][j] == 1) {
                     retCnt++;
-                    retLength = Math.max(retLength, dfs(i,j, 1));
+                    bfs(i,j, 1);
                 }
             }
         }
@@ -43,19 +43,27 @@ public class Main {
         System.out.println(retLength);
     }
 
-    private static int dfs(int x, int y, int length) {
+    private static void bfs(int x, int y, int length) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[]{x, y});
         map[x][y] = 0;
+        while(!queue.isEmpty()) {
+            int[] cur = queue.poll();
 
-        for(int i = 0; i < 4; i++) {
-            int xx = x + tx[i];
-            int yy = y + ty[i];
-            if(0 <= xx && xx < N && 0 <= yy && yy < M) {
-                if(map[xx][yy] == 1) {
-                    length += dfs(xx,yy, 1);
+            for(int i = 0; i < 4; i++) {
+                int xx = cur[0] + tx[i];
+                int yy = cur[1] + ty[i];
+
+                if(0 <= xx && xx < N && 0 <= yy && yy < M) {
+                    if (map[xx][yy] == 1) {
+                        map[xx][yy] = 0;
+                        queue.add(new int[]{xx, yy});
+                        length++;
+                    }
                 }
             }
         }
 
-        return length;
+        retLength = Math.max(retLength, length);
     }
 }
