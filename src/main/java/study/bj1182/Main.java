@@ -8,9 +8,6 @@ public class Main {
     static int N,S;
 
     static int[] arr;
-    static boolean[] visited;
-    static int[] nArr;
-
     static int ret = 0;
 
     public static void main(String[] args) throws IOException {
@@ -23,41 +20,28 @@ public class Main {
         S = Integer.parseInt(st.nextToken());
 
         arr = new int[N];
-        visited = new boolean[N];
 
         st = new StringTokenizer(br.readLine());
         for(int i = 0; i < N; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
-
-        for(int i = 1; i <= N; i++) {
-            nArr = new int[i];
-            backtrack(0, 0, i);
+        dfs(0, 0);
+        if (S == 0) {
+            System.out.println(ret -1);
+        }else {
+            System.out.println(ret);
         }
-
-        System.out.println(ret);
     }
 
-    public static void backtrack(int start, int depth, int limit) {
-        if(depth == limit) {
-            int sum = 0;
-            for(int a : nArr) {
-                sum += a;
-            }
-
+    public static void dfs(int depth, int sum) {
+        if(depth == N) {
             if(sum == S) {
                 ret++;
             }
             return;
         }
 
-        for(int i = start; i <N; i++) {
-            if(!visited[i]) {
-                visited[i] = true;
-                nArr[depth] = arr[i];
-                backtrack(i + 1, depth + 1, limit);
-                visited[i] = false;
-            }
-        }
+        dfs(depth + 1, sum + arr[depth]);
+        dfs(depth + 1, sum);
     }
 }
