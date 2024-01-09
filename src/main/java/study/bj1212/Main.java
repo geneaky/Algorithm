@@ -8,6 +8,7 @@ public class Main {
 
 
     // ! string 연산에서 시간 소모가 많기때문에 stringbuilder를 사용하자
+    // * 숫자 character에서 '0'을 뺀 결과가 해당 숫자를 10진수로 표현한 값이기 때문에 별도의 컨버팅 없이 사용하기 위해 '0'을 뺀것
     public static void main(String[] args) throws IOException {
         System.setIn(new FileInputStream("/Users/jcr/Desktop/github/Algorithm/src/main/java/study/bj1212/input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
